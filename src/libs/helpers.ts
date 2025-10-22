@@ -1,0 +1,53 @@
+import { randomInt } from 'crypto';
+import path from 'path';
+
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { v4 as uuidv4 } from 'uuid';
+
+// Type Predicates for Prisma errors
+export function isUniqueConstraintPrismaError(
+  error: unknown,
+): error is PrismaClientKnownRequestError {
+  return (
+    error instanceof PrismaClientKnownRequestError && error.code === 'P2002'
+  );
+}
+
+export function isRecordNotFoundError(
+  error: unknown,
+): error is PrismaClientKnownRequestError {
+  return (
+    error instanceof PrismaClientKnownRequestError && error.code === 'P2025'
+  );
+}
+
+export function isValidationError(
+  error: unknown,
+): error is { property: string; constraints: Record<string, unknown> }[] {
+  return (
+    Array.isArray(error) &&
+    error.every((e) => 'property' in e && 'constraints' in e)
+  );
+}
+
+export function isString(value: unknown): value is string {
+  return typeof value === 'string' || value instanceof String;
+}
+
+export function isEmail(value: unknown): value is string {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return isString(value) && emailRegex.test(value);
+}
+
+export function isNonEmptyString(value: unknown): value is string {
+  return isString(value) && value.trim().length > 0;
+}
+
+export const generateRandomCode = (): string => {
+  return randomInt(100000, 1000000).toString();
+};
+
+export const generateRandomFileName = (originalName: string): string => {
+  const fileExtension = path.extname(originalName);
+  return `${uuidv4()}${fileExtension}`;
+};

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.next
+out
+coverage
+
+# Generated files
+generated
+.prisma
+
+# Config files
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Misc
+*.log

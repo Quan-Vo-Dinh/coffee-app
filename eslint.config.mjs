@@ -1,5 +1,6 @@
 // @ts-check
 import eslint from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
@@ -13,6 +14,8 @@ export default [
       'dist/**',
       'node_modules/**',
       'coverage/**',
+      'generated/**',
+      '.prisma/**',
     ],
   },
   eslint.configs.recommended,
@@ -37,6 +40,7 @@ export default [
         typescript: true,
         node: true,
       },
+      'import/internal-regex': '^(src|@)/.*$',
     },
     rules: {
       // TypeScript rules
@@ -77,4 +81,5 @@ export default [
       ],
     },
   },
+  prettierConfig, // Must be last to override other configs
 ];
